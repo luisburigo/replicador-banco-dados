@@ -4,31 +4,31 @@ import {BaseEntity, Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 class Direcao extends BaseEntity {
 
     @PrimaryGeneratedColumn()
-    id: Number;
+    id: number;
 
-    @Column('host_origem')
+    @Column('varchar', {name: 'host_origem'})
     hostOrigem: string;
 
-    @Column('user_origem')
+    @Column('varchar', {name: 'user_origem'})
     userOrigem: string;
 
-    @Column('password_origem')
+    @Column('varchar', {name: 'password_origem'})
     passwordOrigem: string;
 
-    @Column('host_origem')
+    @Column('varchar', {name: 'host_destino'})
     hostDestino: string;
 
-    @Column('user_origem')
+    @Column('varchar', {name: 'user_destino'})
     userDestino: string;
 
-    @Column('password_origem')
+    @Column('varchar', {name: 'password_destino'})
     passwordDestino: string;
 
-    @Column()
-    active: Boolean;
+    @Column('boolean', {name: 'active'})
+    active: boolean;
 
-    @Column('code_proccess')
-    codeProccess: Number
+    @Column('integer', {name: 'code_proccess'})
+    codeProccess: number
 
 }
 

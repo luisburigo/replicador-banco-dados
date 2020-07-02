@@ -6,6 +6,7 @@ const cors = require("cors");
 import * as express from "express"
 import {Bootstrap} from "./Bootstrap";
 import {ModelTeste} from "./models/ModelTeste";
+import direcaoRoutes from "./routes/direcao.routes";
 
 class App {
 
@@ -24,27 +25,12 @@ class App {
         this.initRoutes();
         this.initMiddlewares();
 
-        this.express.listen(process.env.APP_PORT || 8000, () => console.log('Listening'))
+        const port = process.env.APP_PORT || 8000;
+        this.express.listen(port, () => console.log(`Project running in: http://localhost:${port}`))
     }
 
     private initRoutes() {
-        this.express.get('/', async (_, res) => {
-
-            console.log('asd')
-
-            let modelTeste = new ModelTeste;
-            modelTeste.nome = 'testando';
-            await modelTeste.save();
-
-            modelTeste = new ModelTeste;
-            modelTeste.nome = 'teste 2';
-            await modelTeste.save();
-
-            let examples = await ModelTeste.find();
-
-            res.json(examples);
-
-        });
+        this.express.use('/direcao', direcaoRoutes);
     }
 
     private initMiddlewares() {

@@ -6,7 +6,7 @@ class Bootstrap {
 
     static async init() {
         Bootstrap.initEnvVars();
-        await Bootstrap.initDb();
+        return  Bootstrap.initDb();
     }
 
     static initEnvVars() {
@@ -15,9 +15,8 @@ class Bootstrap {
         });
     }
 
-    static async initDb() {
-        return await createConnection({
-            name: 'default',
+    static initDb() {
+        return createConnection({
             type: "sqlite",
             database: __dirname + '/.data/database_dev.sqlite',
             entities: [
