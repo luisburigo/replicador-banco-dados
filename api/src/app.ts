@@ -4,9 +4,8 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 
 import * as express from "express"
-import {todoRouter} from "./routes/TodoRoutes";
-import {userRouter} from "./routes/UserRoutes";
 import {Bootstrap} from "./Bootstrap";
+import {ModelTeste} from "./models/ModelTeste";
 
 class App {
 
@@ -20,8 +19,8 @@ class App {
         this.express.use(bodyParser.urlencoded({extended: true}));
     }
 
-    init() {
-        Bootstrap.init();
+    async init() {
+        await Bootstrap.init();
         this.initRoutes();
         this.initMiddlewares();
 
@@ -29,8 +28,23 @@ class App {
     }
 
     private initRoutes() {
-        this.express.use('/todo', todoRouter);
-        this.express.use('/user', userRouter);
+        this.express.get('/', async (_, res) => {
+
+            console.log('asd')
+
+            let modelTeste = new ModelTeste;
+            modelTeste.nome = 'testando';
+            await modelTeste.save();
+
+            modelTeste = new ModelTeste;
+            modelTeste.nome = 'teste 2';
+            await modelTeste.save();
+
+            let examples = await ModelTeste.find();
+
+            res.json(examples);
+
+        });
     }
 
     private initMiddlewares() {

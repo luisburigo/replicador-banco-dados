@@ -1,12 +1,12 @@
-import {connect} from "mongoose"
+import {createConnection} from "typeorm"
 import {config} from "dotenv"
 import {resolve} from "path"
 
 class Bootstrap {
 
-    static init() {
+    static async init() {
         Bootstrap.initEnvVars();
-        Bootstrap.initDb();
+        await Bootstrap.initDb();
     }
 
     static initEnvVars() {
@@ -16,19 +16,15 @@ class Bootstrap {
     }
 
     static async initDb() {
-        const {DB_USER, DB_PASS, DB_HOST} = process.env;
-        let host = DB_HOST;
-
-        host = host.replace('<dbuser>', DB_USER);
-        host = host.replace('<dbpassword>', DB_PASS);
-
-        try {
-            await connect(host, {
-                useNewUrlParser: false
-            })
-        } catch (e) {
-            console.warn(e)
-        }
+        return await createConnection({
+            name: 'default',
+            type: "sqlite",
+            database: __dirname + '/.data/database_dev.sqlite',
+            entities: [
+                __dirname + "/models/*{.ts,.js}"
+            ],
+            synchronize: true
+        })
     }
 }
 
