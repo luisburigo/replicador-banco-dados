@@ -28,8 +28,9 @@ class Direcao extends BaseEntity {
     active: boolean;
 
     @Column('integer', {name: 'code_proccess'})
-    codeProccess: number
+    codeProccess: number;
 
 }
 
 export {Direcao}
+

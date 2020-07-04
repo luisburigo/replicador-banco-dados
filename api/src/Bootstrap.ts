@@ -18,7 +18,7 @@ class Bootstrap {
     static initDb() {
         return createConnection({
             type: "sqlite",
-            database: __dirname + '/.data/database_dev.sqlite',
+            database: __dirname + '/../.data/database_dev.sqlite',
             entities: [
                 __dirname + "/models/*{.ts,.js}"
             ],
