@@ -6,7 +6,7 @@ class Direcao extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column('varchar', {name: 'host_origem'})
+    @Column('varchar2', {name: 'host_origem'})
     hostOrigem: string;
 
     @Column('varchar2', {name: 'user_origem'})
