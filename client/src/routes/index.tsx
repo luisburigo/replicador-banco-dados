@@ -1,14 +1,20 @@
 import React from "react";
-import {BrowserRouter, Switch, Route} from "react-router-dom";
+import {Router, Switch, Route} from "react-router-dom";
+import {createBrowserHistory} from "history";
+import InitModal from "../views/InitModal";
+
+const history = createBrowserHistory();
 
 function Routes() {
     return (
-        <BrowserRouter>
+        <Router history={history}>
             <Switch>
-                <Route path="/" component={() => <h1>Hello</h1>} exact/>
+                <Route path="/" component={InitModal} exact/>
+                <Route path="/hello" component={() => <h1>Hello</h1>}/>
             </Switch>
-        </BrowserRouter>
+        </Router>
     )
 }
 
+export {history}
 export default Routes;
