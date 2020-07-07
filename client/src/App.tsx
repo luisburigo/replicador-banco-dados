@@ -1,13 +1,12 @@
 import React from 'react';
-import {DatePicker, Button} from "antd";
+import MainLayout from "./layouts/MainLayout";
+import Routes from "./routes";
 
 function App() {
     return (
-        <>
-            <Button color="danger">
-                Teste
-            </Button>
-        </>
+        <MainLayout>
+            <Routes />
+        </MainLayout>
     );
 }
 

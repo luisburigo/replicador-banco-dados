@@ -1,0 +1,14 @@
+.main-layout {
+    height: 100vh;
+}
+
+.main-layout__logo {
+    color: white;
+    font-weight: 600;
+}
+
+.main-layout__content {
+    padding: 24px;
+    margin: 0;
+    /*minHeight: 280;*/
+}
