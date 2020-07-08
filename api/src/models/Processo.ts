@@ -2,14 +2,14 @@ import { Entity, BaseEntity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 @Entity('processos')
 class Processo extends BaseEntity {
-  
+
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('varchar2', {name: 'code_proccess'})
+  @Column('varchar', {name: 'code_proccess'})
   codeProccess: string;
 
-  @Column('varchar2', {name: 'description'})
+  @Column('varchar', {name: 'description'})
   descricao: string;
 
   @Column('boolean', {name: 'active'})

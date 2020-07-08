@@ -6,22 +6,22 @@ class Direcao extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column('varchar2', {name: 'host_origem'})
+    @Column('varchar', {name: 'host_origem'})
     hostOrigem: string;
 
-    @Column('varchar2', {name: 'user_origem'})
+    @Column('varchar', {name: 'user_origem'})
     userOrigem: string;
 
-    @Column('varchar2', {name: 'password_origem'})
+    @Column('varchar', {name: 'password_origem'})
     passwordOrigem: string;
 
-    @Column('varchar2', {name: 'host_destino'})
+    @Column('varchar', {name: 'host_destino'})
     hostDestino: string;
 
-    @Column('varchar2', {name: 'user_destino'})
+    @Column('varchar', {name: 'user_destino'})
     userDestino: string;
 
-    @Column('varchar2', {name: 'password_destino'})
+    @Column('varchar', {name: 'password_destino'})
     passwordDestino: string;
 
     @Column('boolean', {name: 'active'})

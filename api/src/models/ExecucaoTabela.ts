@@ -16,7 +16,7 @@ class ExecucaoTabela extends BaseEntity {
   @Column('number', {name: 'lines'})
   lines: number;
 
-  @Column('varchar2', {name: 'message'})
+  @Column('varchar', {name: 'message'})
   message: string;
 
   @Column('boolean', {name: 'success'})
