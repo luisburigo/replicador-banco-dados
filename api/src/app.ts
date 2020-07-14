@@ -6,6 +6,7 @@ const cors = require("cors");
 import * as express from "express"
 import {Bootstrap} from "./Bootstrap";
 import direcaoRoutes from "./routes/direcao.routes";
+import processoRoutes from "./routes/processo.routes";
 
 class App {
 
@@ -30,6 +31,7 @@ class App {
 
     private initRoutes() {
         this.express.use('/direcao', direcaoRoutes);
+        this.express.use('/processos', processoRoutes);
     }
 
     private initMiddlewares() {

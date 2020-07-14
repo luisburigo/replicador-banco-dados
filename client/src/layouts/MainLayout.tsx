@@ -1,11 +1,14 @@
-import React from "react";
+import React, {useContext} from "react";
 import {Layout, Menu} from 'antd';
 
 import "./style.css";
+import {DirecaoContext} from "../contexts/DirecaoContext";
 
 const {Header, Content, Sider,} = Layout;
 
 const MainLayout: React.FC = ({children}) => {
+    const {processos} = useContext(DirecaoContext);
+
     return (
         <Layout className="main-layout">
             <Header>
@@ -21,8 +24,11 @@ const MainLayout: React.FC = ({children}) => {
                         defaultOpenKeys={['sub1']}
                         style={{height: '100%', borderRight: 0}}
                     >
-                        <Menu.Item key="1">Processo 1</Menu.Item>
-                        <Menu.Item key="2">Processo 2</Menu.Item>
+                        {
+                            processos.map(processo => (
+                                <Menu.Item key={processo.id}>{processo.descricao}</Menu.Item>
+                            ))
+                        }
                     </Menu>
                 </Sider>
                 <Layout style={{padding: '0 24px 24px'}}>

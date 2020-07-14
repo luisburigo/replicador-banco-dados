@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from "react";
-import {Modal, Select, Button, Form} from "antd";
+import React, {useContext, useEffect, useState} from "react";
+import {Button, Form, Modal, Select} from "antd";
 import {history} from "../../routes";
 import DirecaoService, {Direcao} from "../../services/DirecaoService";
-import api from "../../services/api";
+import {DirecaoContext} from "../../contexts/DirecaoContext";
 
 const {Option} = Select;
 
@@ -10,6 +10,8 @@ const InitModal: React.FC = (props) => {
     const [visible, setVisible] = useState(true);
     const [direcoes, setDirecoes] = useState<Direcao[]>([]);
     const [direcao, setDirecao] = useState<Direcao>({} as Direcao);
+
+    const {getProcessos} = useContext(DirecaoContext);
 
     useEffect(() => {
         const direcaoId = DirecaoService.getDirecaoInLocalStorage();
@@ -37,6 +39,7 @@ const InitModal: React.FC = (props) => {
     function handleOk() {
         closePage();
         DirecaoService.setInLocalStorage(direcao);
+        getProcessos(direcao.id);
     }
 
     function closePage() {
@@ -58,7 +61,7 @@ const InitModal: React.FC = (props) => {
                     <Select onChange={handleChange}>
                         {direcoes.map(direcao => (
                             <Option key={direcao.id} value={direcao.id}>
-                                {direcao.hostOrigem} - {direcao.hostDestino}
+                                {direcao.origem.databaseName} - {direcao.destino.databaseName}
                             </Option>
                         ))}
                     </Select>

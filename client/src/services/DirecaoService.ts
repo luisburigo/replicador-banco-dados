@@ -1,14 +1,17 @@
 import api from "./api";
 
+interface DirecaoDatabase {
+    host: string,
+    port: number,
+    databaseName: string,
+    username: string,
+    password: string,
+}
+
 export interface Direcao {
     id: number;
-    hostOrigem: string;
-    passwordOrigem: string;
-    hostDestino: string;
-    userDestino: string;
-    passwordDestino: string;
-    active: boolean;
-    codeProccess: number;
+    origem: DirecaoDatabase,
+    destino: DirecaoDatabase,
 }
 
 export const DIRECAO_KEY = 'DIRECAO_KEY';
