@@ -1,19 +1,25 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column } from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne, BaseEntity} from "typeorm";
+import {Direcao} from "./Direcao";
 
 @Entity('processos')
 class Processo extends BaseEntity {
 
-  @PrimaryGeneratedColumn()
-  id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @Column('varchar', {name: 'code_proccess'})
-  codeProccess: string;
+    @Column('varchar', {name: 'descricao'})
+    descricao: string;
 
-  @Column('varchar', {name: 'description'})
-  descricao: string;
+    @Column('int', {name: 'tempo_execucao'})
+    tempoExecucao: number;
 
-  @Column('boolean', {name: 'active'})
-  active: boolean;
+    @Column('boolean', {name: 'ativo', default: true})
+    ativo: boolean = true;
+
+    @JoinColumn({name: "fk_processo_direcao"})
+    @ManyToOne(type => Direcao)
+    direcao: Direcao;
+
 }
 
-export {Processo}
+export {Processo};

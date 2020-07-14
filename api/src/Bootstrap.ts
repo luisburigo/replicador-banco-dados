@@ -1,4 +1,4 @@
-import {createConnection} from "typeorm"
+import {createConnection, getConnection} from "typeorm"
 import {config} from "dotenv"
 import {resolve} from "path"
 
@@ -6,7 +6,8 @@ class Bootstrap {
 
     static async init() {
         Bootstrap.initEnvVars();
-        return  Bootstrap.initDb();
+        await Bootstrap.initDb();
+        return await Bootstrap.initMigration();
     }
 
     static initEnvVars() {
@@ -22,8 +23,15 @@ class Bootstrap {
             entities: [
                 __dirname + "/models/*{.ts,.js}"
             ],
+            migrations: [__dirname + '/migrations/*.js'],
             synchronize: true
         })
+    }
+
+    static async initMigration() {
+        console.log('[Migrations] Init')
+        const connection = getConnection();
+        await connection.runMigrations();
     }
 }
 

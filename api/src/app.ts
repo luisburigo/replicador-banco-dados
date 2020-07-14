@@ -5,7 +5,6 @@ const cors = require("cors");
 
 import * as express from "express"
 import {Bootstrap} from "./Bootstrap";
-import {ModelTeste} from "./models/ModelTeste";
 import direcaoRoutes from "./routes/direcao.routes";
 
 class App {
