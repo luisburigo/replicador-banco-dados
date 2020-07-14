@@ -1,8 +1,8 @@
-import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, BaseEntity} from "typeorm";
 import {Processo} from "./Processo";
 
 @Entity('tabelas')
-class Tabela {
+class Tabela extends BaseEntity {
 
     @PrimaryGeneratedColumn()
     id: number;

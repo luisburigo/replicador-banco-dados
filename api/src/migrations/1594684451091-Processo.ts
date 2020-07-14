@@ -20,7 +20,7 @@ export class Processo1594684451091 implements MigrationInterface {
         await processoCopiarEndereco.save();
 
         const processoCopiarPagamento = new Processo();
-        processoCopiarPagamento.descricao = "Copiar Endereços"
+        processoCopiarPagamento.descricao = "Copiar Pagamentos"
         processoCopiarPagamento.direcao = direcao;
         processoCopiarPagamento.tempoExecucao = 1 * 60 * 60;
         await processoCopiarPagamento.save();
