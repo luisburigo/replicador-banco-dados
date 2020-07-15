@@ -1,8 +1,33 @@
 import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, BaseEntity} from "typeorm";
 import {Processo} from "./Processo";
 
+interface ITabela {
+    id?: number;
+
+    nomeOrigem: string;
+
+    nomeDestino: string;
+
+    ordem: number;
+
+    ativo: boolean;
+
+    colunaChave: string;
+
+    colunaChaveTipo: string;
+
+    processo: Processo;
+}
+
 @Entity('tabelas')
 class Tabela extends BaseEntity {
+
+    constructor(tabela?: ITabela) {
+        super();
+        if (tabela) {
+            Object.assign(this, tabela);
+        }
+    }
 
     @PrimaryGeneratedColumn()
     id: number;

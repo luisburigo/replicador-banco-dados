@@ -7,11 +7,11 @@ export class Processo1594684451091 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         const direcao = await Direcao.findOne({where: {id: 1}});
 
-        const processoCopiarUsuarios = new Processo();
-        processoCopiarUsuarios.descricao = "Copiar Usuarios"
-        processoCopiarUsuarios.direcao = direcao;
-        processoCopiarUsuarios.tempoExecucao = 15 * 60;
-        await processoCopiarUsuarios.save();
+        const processoMain = new Processo();
+        processoMain.descricao = "Processo main"
+        processoMain.direcao = direcao;
+        processoMain.tempoExecucao = 15 * 60;
+        await processoMain.save();
 
         const processoCopiarEndereco = new Processo();
         processoCopiarEndereco.descricao = "Copiar Endereços"

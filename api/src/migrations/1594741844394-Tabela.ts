@@ -1,53 +1,132 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
-import { Processo } from "../models/Processo";
-import { Tabela } from "../models/Tabela";
+import {Processo} from "../models/Processo";
+import {Tabela} from "../models/Tabela";
+
+/*
+* - States
+* - Cities
+* - Graduation
+* - Modalities
+* - User
+* - Periods
+* - Student
+* - Modalities Periods
+* - Modality Users
+* - Modality Students
+* - Payment
+* */
+
 
 export class Tabela1594741844394 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        const processoCopiarUsuarios = await Processo.findOne({where: {id: 1}});
-        const processoCopiarEnderecos = await Processo.findOne({where: {id: 2}});
-        const processoCopiarPagamentos = await Processo.findOne({where: {id: 3}});
+        const processoMain = await Processo.findOne({where: {id: 1}});
 
-        const tabelaUsuarios = new Tabela();
-        tabelaUsuarios.processo = processoCopiarUsuarios;
-        tabelaUsuarios.nomeOrigem = "users";
-        tabelaUsuarios.nomeDestino = "users";
-        tabelaUsuarios.ordem = 1;
-        tabelaUsuarios.ativo = true;
-        tabelaUsuarios.colunaChave = "id";
-        tabelaUsuarios.colunaChaveTipo = "int";
-        await tabelaUsuarios.save();
+        const tabelas = [
+            new Tabela({
+                processo: processoMain,
+                nomeOrigem: "states",
+                nomeDestino: "states",
+                ordem: 1,
+                ativo: true,
+                colunaChave: "id",
+                colunaChaveTipo: "int",
+            }),
+            new Tabela({
+                processo: processoMain,
+                nomeOrigem: "cities",
+                nomeDestino: "cities",
+                ordem: 2,
+                ativo: true,
+                colunaChave: "id",
+                colunaChaveTipo: "int",
+            }),
+            new Tabela({
+                processo: processoMain,
+                nomeOrigem: "graduation",
+                nomeDestino: "graduation",
+                ordem: 3,
+                ativo: true,
+                colunaChave: "id",
+                colunaChaveTipo: "int",
+            }),
+            new Tabela({
+                processo: processoMain,
+                nomeOrigem: "modalities",
+                nomeDestino: "modalities",
+                ordem: 4,
+                ativo: true,
+                colunaChave: "id",
+                colunaChaveTipo: "int",
+            }),
+            new Tabela({
+                processo: processoMain,
+                nomeOrigem: "users",
+                nomeDestino: "users",
+                ordem: 5,
+                ativo: true,
+                colunaChave: "id",
+                colunaChaveTipo: "int",
+            }),
+            new Tabela({
+                processo: processoMain,
+                nomeOrigem: "periods",
+                nomeDestino: "periods",
+                ordem: 6,
+                ativo: true,
+                colunaChave: "id",
+                colunaChaveTipo: "int",
+            }),
+            new Tabela({
+                processo: processoMain,
+                nomeOrigem: "students",
+                nomeDestino: "students",
+                ordem: 7,
+                ativo: true,
+                colunaChave: "id",
+                colunaChaveTipo: "int",
+            }),
+            new Tabela({
+                processo: processoMain,
+                nomeOrigem: "modalities_periods",
+                nomeDestino: "modalities_periods",
+                ordem: 8,
+                ativo: true,
+                colunaChave: "id",
+                colunaChaveTipo: "int",
+            }),
+            new Tabela({
+                processo: processoMain,
+                nomeOrigem: "modality_users",
+                nomeDestino: "modality_users",
+                ordem: 9,
+                ativo: true,
+                colunaChave: "id",
+                colunaChaveTipo: "int",
+            }),
+            new Tabela({
+                processo: processoMain,
+                nomeOrigem: "modality_students",
+                nomeDestino: "modality_students",
+                ordem: 10,
+                ativo: true,
+                colunaChave: "id",
+                colunaChaveTipo: "int",
+            }),
+            new Tabela({
+                processo: processoMain,
+                nomeOrigem: "payments",
+                nomeDestino: "payments",
+                ordem: 11,
+                ativo: true,
+                colunaChave: "id",
+                colunaChaveTipo: "int",
+            }),
+        ]
 
-        const tabelaEnderecoStates = new Tabela();
-        tabelaEnderecoStates.processo = processoCopiarEnderecos;
-        tabelaEnderecoStates.nomeOrigem = "states";
-        tabelaEnderecoStates.nomeDestino = "states";
-        tabelaEnderecoStates.ordem = 1;
-        tabelaEnderecoStates.ativo = true;
-        tabelaEnderecoStates.colunaChave = "id";
-        tabelaEnderecoStates.colunaChaveTipo = "int";
-        await tabelaEnderecoStates.save();
-
-        const tabelaEnderecoCities = new Tabela();
-        tabelaEnderecoCities.processo = processoCopiarEnderecos;
-        tabelaEnderecoCities.nomeOrigem = "cities";
-        tabelaEnderecoCities.nomeDestino = "cities";
-        tabelaEnderecoCities.ordem = 2;
-        tabelaEnderecoCities.ativo = true;
-        tabelaEnderecoCities.colunaChave = "id";
-        tabelaEnderecoCities.colunaChaveTipo = "int";
-        await tabelaEnderecoCities.save();
-
-        const tabelaEnderecoPayments = new Tabela();
-        tabelaEnderecoPayments.processo = processoCopiarPagamentos;
-        tabelaEnderecoPayments.nomeOrigem = "payments";
-        tabelaEnderecoPayments.nomeDestino = "payments";
-        tabelaEnderecoPayments.ordem = 1;
-        tabelaEnderecoPayments.ativo = true;
-        tabelaEnderecoPayments.colunaChave = "id";
-        tabelaEnderecoPayments.colunaChaveTipo = "int";
-        await tabelaEnderecoPayments.save();
+        for (let tabela of tabelas) {
+            await tabela.save();
+        }
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
