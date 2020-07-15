@@ -1,13 +1,16 @@
 import React, {useContext} from "react";
 import {Layout, Menu} from 'antd';
+import {DirecaoContext} from "../contexts/DirecaoContext";
+import {history} from "../routes";
 
 import "./style.css";
-import {DirecaoContext} from "../contexts/DirecaoContext";
 
 const {Header, Content, Sider,} = Layout;
 
 const MainLayout: React.FC = ({children}) => {
     const {processos} = useContext(DirecaoContext);
+
+    const handleClick = (processoId: number) => history.push(`/processo/${processoId}`);
 
     return (
         <Layout className="main-layout">
@@ -21,12 +24,16 @@ const MainLayout: React.FC = ({children}) => {
                     <Menu
                         mode="inline"
                         defaultSelectedKeys={['1']}
-                        defaultOpenKeys={['sub1']}
                         style={{height: '100%', borderRight: 0}}
                     >
                         {
                             processos.map(processo => (
-                                <Menu.Item key={processo.id}>{processo.descricao}</Menu.Item>
+                                <Menu.Item
+                                    onClick={() => handleClick(processo.id)}
+                                    key={processo.id}
+                                >
+                                    {processo.descricao}
+                                </Menu.Item>
                             ))
                         }
                     </Menu>
