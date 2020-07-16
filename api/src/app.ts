@@ -53,6 +53,16 @@ class App {
                 console.log('[Socket] Socket disconnected: ' + socket.id);
             });
         })
+
+        setInterval(() => {
+
+            ApplicationContext.sockets.forEach((socket) => {
+
+                socket.emit('processo/1', "Processo 1 rodando")
+
+            });
+
+        }, 3000)
     }
 
     private initMiddlewares() {
