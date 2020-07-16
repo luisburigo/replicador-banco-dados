@@ -15,7 +15,8 @@
     "typeorm": "^0.2.25",
     "reflect-metadata": "^0.1.13",
     "sqlite3": "^5.0.0",
-    "mysql2": "^2.1.0"
+    "mysql2": "^2.1.0",
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.6",
@@ -24,6 +25,7 @@
     "@types/node": "^12.7.8",
     "@types/jest": "^24.0.18",
     "@types/dotenv": "^8.2.0",
+    "@types/socket.io": "^2.1.8",
     "dotenv": "^8.1.0",
     "gulp": "3.9.1",
     "gulp-clean": "0.3.2",
