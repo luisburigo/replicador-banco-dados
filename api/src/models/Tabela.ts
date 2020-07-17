@@ -51,7 +51,7 @@ class Tabela extends BaseEntity {
     colunaChaveTipo: string;
 
     @JoinColumn({name: "fk_tabela_processo"})
-    @ManyToOne(type => Processo)
+    @ManyToOne(type => Processo, {eager: true})
     processo: Processo;
 
 }

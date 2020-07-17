@@ -15,8 +15,8 @@ function Processo() {
     console.log(params)
 
     useEffect(() => {
-        socket.on(`processo/${params.id}`, (message: string) => {
-            setLogs((state) => [...state, message]);
+        socket.on(`processo/${params.id}`, (message: any) => {
+            setLogs((state) => [...state, message.descricao]);
         })
     }, [])
 

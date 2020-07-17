@@ -7,10 +7,14 @@ import * as http from "http";
 import * as express from "express"
 import * as socket from "socket.io";
 import {Bootstrap} from "./Bootstrap";
+import SocketService from "./services/SocketService";
 
 import direcaoRoutes from "./routes/direcao.routes";
 import processoRoutes from "./routes/processo.routes";
-import {ApplicationContext} from "./ApplicationContext";
+import {Direcao} from "./models/Direcao";
+import {Processo} from "./models/Processo";
+import {TabelaLog} from "./models/TabelaLog";
+import {Tabela} from "./models/Tabela";
 
 class App {
 
@@ -45,24 +49,14 @@ class App {
         this.io = socket(this.server);
 
         this.io.on('connection', (socket) => {
-            ApplicationContext.setSocket(socket);
+            SocketService.setSocket(socket);
             console.log('[Socket] Socket connected: ' + socket.id);
 
             socket.on('disconnect', () => {
-                ApplicationContext.removeSocket(socket);
+                SocketService.removeSocket(socket);
                 console.log('[Socket] Socket disconnected: ' + socket.id);
             });
         })
-
-        setInterval(() => {
-
-            ApplicationContext.sockets.forEach((socket) => {
-
-                socket.emit('processo/1', "Processo 1 rodando")
-
-            });
-
-        }, 3000)
     }
 
     private initMiddlewares() {

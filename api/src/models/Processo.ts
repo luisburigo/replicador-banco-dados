@@ -1,4 +1,4 @@
-import {Entity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne, BaseEntity} from "typeorm";
+import {BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import {Direcao} from "./Direcao";
 
 @Entity('processos')
@@ -17,7 +17,7 @@ class Processo extends BaseEntity {
     ativo: boolean = true;
 
     @JoinColumn({name: "fk_processo_direcao"})
-    @ManyToOne(type => Direcao)
+    @ManyToOne(type => Direcao, {eager: true})
     direcao: Direcao;
 
 }
