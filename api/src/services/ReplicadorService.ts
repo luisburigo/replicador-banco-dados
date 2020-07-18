@@ -1,7 +1,7 @@
 import {Processo} from "../models/Processo";
 import {Connection} from "typeorm";
 import {ConnectionFactory} from "../models/Direcao";
-import {Tabela} from "../models/Tabela";
+import {Tabela, ColunaChaveTipoEnum} from "../models/Tabela";
 
 class ReplicadorService {
 
@@ -32,40 +32,67 @@ class ReplicadorService {
         await this.createConnectionDestino();
         console.log('criou tabelas')
 
-        const tabela = tabelas[4];
         const queryRunnerOrigem = this.connectionOrigem.createQueryRunner();
-        const querySelect = `SELECT * FROM ${tabela.nomeOrigem}`;
+        const queryRunnerDestino = this.connectionDestino.createQueryRunner();
+        
+        for (const tabela of tabelas) {
+            let colunaChave = tabela.colunaChave;
+            let colunaChaveTipo = tabela.colunaChaveTipo;
+            
+            switch (colunaChaveTipo) {
+                case ColunaChaveTipoEnum.INT:
+                    let querySelectDestino = `SELECT MAX(${colunaChave}) FROM ${tabela.nomeDestino}`;
+                    let rows  = await queryRunnerDestino.query(querySelectDestino);
 
-        const rows = await queryRunnerOrigem.query(querySelect);
+                    let values = Object.values(rows[0]);
+                    //console.log(values[0]);
 
-        for (const row of rows) {
-            console.log(row)
-            const colunas = Object.keys(row);
-            let values = Object.values(row);
-            values = values.map((value) => {
-                if (value instanceof Buffer) {
-                    return value[0] == 1;
-                }
+                    if (!values[0]) {
+                        //Insere toda tabela
+                    } else {
+                        //Insere somente após o ID
+                    }
 
-                if (typeof value == 'string') {
-                    return `'${value}'`;
-                }
+                    break;
+                case ColunaChaveTipoEnum.UNDEFINED:
+                    //Apagar tudo e inserir
+                    break;
+                default:
+                    break;
+            }
 
-                if (value == null) {
-                    return 'null';
-                }
+            let querySelectOrigem = `SELECT * FROM ${tabela.nomeOrigem}`;
+            let newRows = await queryRunnerOrigem.query(querySelectOrigem);
 
-                return value
-            })
-            let queryInsert = `INSERT INTO ${tabela.nomeDestino} `;
+            for (const row of newRows) {
+                
+                let colunas = Object.keys(row);
+                let values = Object.values(row);
 
-            queryInsert += `(${colunas.join(',')}) `;
-            queryInsert += `VALUES (${values.join(',')});`;
+                values = values.map((value) => {
+                    if (value instanceof Buffer) {
+                        return value[0] == 1;
+                    }
+    
+                    if (typeof value == 'string') {
+                        return `'${value}'`;
+                    }
+    
+                    if (value == null) {
+                        return 'null';
+                    }
+    
+                    return value
+                });
+                let queryInsert = `INSERT INTO ${tabela.nomeDestino} `;
+    
+                queryInsert += `(${colunas.join(',')}) `;
+                queryInsert += `VALUES (${values.join(',')});`;
 
-            const queryRunnerDestino = this.connectionDestino.createQueryRunner();
-            await queryRunnerDestino.query(queryInsert);
+                //await queryRunnerDestino.query(queryInsert);
+            }
         }
-    }
+    }        
 
     private async createConnectionOrigem() {
         this.connectionOrigem = await this.connectionFactory.createConnectionOrigem();
