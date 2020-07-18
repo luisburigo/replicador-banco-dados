@@ -53,8 +53,8 @@ export class Tabela1594741844394 implements MigrationInterface {
 
             new Tabela({
                 processo: processoMain,
-                nomeOrigem: "graduation",
-                nomeDestino: "graduation",
+                nomeOrigem: "graduations",
+                nomeDestino: "graduations",
                 ordem: 4,
                 ativo: true,
                 colunaChave: "id",
