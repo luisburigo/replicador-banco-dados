@@ -12,12 +12,19 @@ function Processo() {
     const params = useParams<RouteParams>();
     const [logs, setLogs] = useState<string[]>([]);
 
-    console.log(params)
-
     useEffect(() => {
+        console.log('inicaindo sockets eventos')
+
         socket.on(`processo/${params.id}`, (message: any) => {
             setLogs((state) => [...state, message.descricao]);
         })
+
+        socket.emit(`processo:run`, params.id);
+
+        return () => {
+            socket.emit(`processo:cancel`, params.id);
+            socket.off(`processo/${params.id}`);
+        }
     }, [])
 
     return (

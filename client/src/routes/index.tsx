@@ -10,8 +10,14 @@ function Routes() {
     return (
         <Router history={history}>
             <Switch>
-                <Route path="/" component={InitModal} exact/>
-                <Route path="/processo/:id" component={Processo}/>
+                <Route path="/" exact>
+                    <InitModal/>
+                </Route>
+                <Route
+                    path="/processo/:id"
+                    component={(props: any) => (<Processo {...props} key={props.match.params.id}/>)}
+                    exact
+                />
             </Switch>
         </Router>
     )

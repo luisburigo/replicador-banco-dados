@@ -1,13 +1,36 @@
 import {Socket} from "socket.io";
 import {TabelaLog} from "../models/TabelaLog";
+import {Processo} from "../models/Processo";
+import ProcessoService from "./ProcessoService";
 
 export const PROCESSO_EVENT_NAME = 'processo';
 
 class SocketService {
     private sockets: Socket[] = [];
+    private processoService: ProcessoService = new ProcessoService();
 
-    setSocket(socket: Socket) {
+    registerSocket(socket: Socket) {
         console.log(`[SocketService] Connected ${socket.id}`);
+        socket.on('processo:run', async (id: number) => {
+            console.log(`[SocketService] Processo fired ${id}`);
+            try {
+                const processo = await Processo.findOne({where: {id}});
+
+                console.log(processo)
+
+                if (!processo) {
+                    throw new Error("Processo não existe")
+                }
+
+                this.processoService.iniciarProcesso(processo);
+            } catch (e) {
+                socket.emit('processo:error', e)
+            }
+        })
+        socket.on('processo:cancel', async (id: number) => {
+            const processo = await Processo.findOne({where: {id}});
+            this.processoService.cancelarProcesso(processo);
+        })
         this.sockets.push(socket);
     }
 

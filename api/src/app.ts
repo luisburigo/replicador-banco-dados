@@ -49,12 +49,10 @@ class App {
         this.io = socket(this.server);
 
         this.io.on('connection', (socket) => {
-            SocketService.setSocket(socket);
-            console.log('[Socket] Socket connected: ' + socket.id);
+            SocketService.registerSocket(socket);
 
             socket.on('disconnect', () => {
                 SocketService.removeSocket(socket);
-                console.log('[Socket] Socket disconnected: ' + socket.id);
             });
         })
     }
