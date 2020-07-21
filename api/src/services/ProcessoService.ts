@@ -1,7 +1,5 @@
 import {Processo} from "../models/Processo";
 import ReplicadorService from "./ReplicadorService";
-import {rejects} from "assert";
-import SocketService from "./SocketService";
 
 const resolveTimeout = () => new Promise(resolve => setTimeout(() => {
     resolve();
@@ -43,7 +41,6 @@ class ProcessoScheduler {
                 console.log('[ProcessoScheduler] Processo finalizou')
                 resolve();
             } catch (e) {
-                console.log('[ProcessoScheduler] Processo error')
                 reject(e);
             }
         }))
