@@ -1,6 +1,15 @@
 import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, BaseEntity} from "typeorm";
 import {Processo} from "./Processo";
 
+export enum ColunaChaveTipoEnum {
+    INT = "INT",
+    STRING = "STRING",
+    DATE = "DATE",
+    DATETIME = "DATETIME",
+    BOOLEAN = "BOOLEAN",
+    UNDEFINED = "UNDEFINED"
+}
+
 interface ITabela {
     id?: number;
 
@@ -44,7 +53,7 @@ class Tabela extends BaseEntity {
     @Column('boolean', {name: 'ativo', default: true})
     ativo: boolean = true;
 
-    @Column('varchar', {name: 'coluna_chave'})
+    @Column('varchar', {name: 'coluna_chave', nullable: true})
     colunaChave: string;
 
     @Column('varchar', {name: 'coluna_chave_tipo'})

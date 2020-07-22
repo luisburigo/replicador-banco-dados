@@ -1,6 +1,6 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 import {Processo} from "../models/Processo";
-import {Tabela} from "../models/Tabela";
+import {Tabela, ColunaChaveTipoEnum} from "../models/Tabela";
 
 /*
 * - States
@@ -30,7 +30,7 @@ export class Tabela1594741844394 implements MigrationInterface {
                 ordem: 1,
                 ativo: true,
                 colunaChave: "id",
-                colunaChaveTipo: "int",
+                colunaChaveTipo: ColunaChaveTipoEnum.INT,
             }),
             new Tabela({
                 processo: processoMain,
@@ -39,7 +39,7 @@ export class Tabela1594741844394 implements MigrationInterface {
                 ordem: 2,
                 ativo: true,
                 colunaChave: "id",
-                colunaChaveTipo: "int",
+                colunaChaveTipo: ColunaChaveTipoEnum.INT,
             }),
             new Tabela({
                 processo: processoMain,
@@ -48,7 +48,7 @@ export class Tabela1594741844394 implements MigrationInterface {
                 ordem: 3,
                 ativo: true,
                 colunaChave: "id",
-                colunaChaveTipo: "int",
+                colunaChaveTipo: ColunaChaveTipoEnum.INT,
             }),
 
             new Tabela({
@@ -58,7 +58,7 @@ export class Tabela1594741844394 implements MigrationInterface {
                 ordem: 4,
                 ativo: true,
                 colunaChave: "id",
-                colunaChaveTipo: "int",
+                colunaChaveTipo: ColunaChaveTipoEnum.INT,
             }),
             new Tabela({
                 processo: processoMain,
@@ -67,7 +67,7 @@ export class Tabela1594741844394 implements MigrationInterface {
                 ordem: 5,
                 ativo: true,
                 colunaChave: "id",
-                colunaChaveTipo: "int",
+                colunaChaveTipo: ColunaChaveTipoEnum.INT,
             }),
             new Tabela({
                 processo: processoMain,
@@ -76,7 +76,7 @@ export class Tabela1594741844394 implements MigrationInterface {
                 ordem: 6,
                 ativo: true,
                 colunaChave: "id",
-                colunaChaveTipo: "int",
+                colunaChaveTipo: ColunaChaveTipoEnum.INT,
             }),
             new Tabela({
                 processo: processoMain,
@@ -85,7 +85,7 @@ export class Tabela1594741844394 implements MigrationInterface {
                 ordem: 7,
                 ativo: true,
                 colunaChave: "id",
-                colunaChaveTipo: "int",
+                colunaChaveTipo: ColunaChaveTipoEnum.INT,
             }),
             new Tabela({
                 processo: processoMain,
@@ -93,8 +93,8 @@ export class Tabela1594741844394 implements MigrationInterface {
                 nomeDestino: "modalities_periods",
                 ordem: 8,
                 ativo: true,
-                colunaChave: "id",
-                colunaChaveTipo: "int",
+                colunaChave: "period_id",
+                colunaChaveTipo: ColunaChaveTipoEnum.INT,
             }),
             new Tabela({
                 processo: processoMain,
@@ -102,8 +102,8 @@ export class Tabela1594741844394 implements MigrationInterface {
                 nomeDestino: "modality_users",
                 ordem: 9,
                 ativo: true,
-                colunaChave: "id",
-                colunaChaveTipo: "int",
+                colunaChave: null,
+                colunaChaveTipo: ColunaChaveTipoEnum.UNDEFINED,
             }),
             new Tabela({
                 processo: processoMain,
@@ -111,8 +111,8 @@ export class Tabela1594741844394 implements MigrationInterface {
                 nomeDestino: "modality_students",
                 ordem: 10,
                 ativo: true,
-                colunaChave: "id",
-                colunaChaveTipo: "int",
+                colunaChave: null,
+                colunaChaveTipo: ColunaChaveTipoEnum.UNDEFINED,
             }),
             new Tabela({
                 processo: processoMain,
@@ -121,7 +121,7 @@ export class Tabela1594741844394 implements MigrationInterface {
                 ordem: 11,
                 ativo: true,
                 colunaChave: "id",
-                colunaChaveTipo: "int",
+                colunaChaveTipo: ColunaChaveTipoEnum.INT,
             }),
         ]
 
