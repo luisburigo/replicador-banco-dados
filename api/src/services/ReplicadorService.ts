@@ -16,7 +16,7 @@ class ReplicadorService {
     }
 
     async iniciarReplicao() {
-        console.log('buscanco tabelas')
+        console.log('buscando tabelas');
         const tabelas = await Tabela.find({
             where: {
                 processo: this.processo
@@ -25,43 +25,46 @@ class ReplicadorService {
                 ordem: "ASC"
             }
         });
-        console.log('buscou tabelas')
+        console.log('buscou tabelas');
 
-        console.log('criando conexao')
+        console.log('criando conexao');
         await this.createConnectionOrigem();
         await this.createConnectionDestino();
-        console.log('criou tabelas')
+        console.log('criou tabelas');
 
         const queryRunnerOrigem = this.connectionOrigem.createQueryRunner();
         const queryRunnerDestino = this.connectionDestino.createQueryRunner();
         
+        console.log('Iniciando replicação...');        
+
         for (const tabela of tabelas) {
             let colunaChave = tabela.colunaChave;
             let colunaChaveTipo = tabela.colunaChaveTipo;
+            let querySelectOrigem = `SELECT * FROM ${tabela.nomeOrigem}`;
             
+            console.log(`Inserindo dados na tabela ${tabela.nomeOrigem}`);
+
             switch (colunaChaveTipo) {
                 case ColunaChaveTipoEnum.INT:
                     let querySelectDestino = `SELECT MAX(${colunaChave}) FROM ${tabela.nomeDestino}`;
                     let rows  = await queryRunnerDestino.query(querySelectDestino);
 
                     let values = Object.values(rows[0]);
-                    //console.log(values[0]);
-
-                    if (!values[0]) {
-                        //Insere toda tabela
-                    } else {
-                        //Insere somente após o ID
+                    
+                    if (values[0]) {
+                        console.log("tabela já possuía registros.");                        
+                        querySelectOrigem += ` WHERE ${tabela.colunaChave} > ${values[0]} `;
                     }
-
                     break;
+                
                 case ColunaChaveTipoEnum.UNDEFINED:
-                    //Apagar tudo e inserir
+                    let queryDeleteDestino = `DELETE FROM ${tabela.nomeDestino}`;
+                    await queryRunnerDestino.query(queryDeleteDestino);
                     break;
+                
                 default:
                     break;
             }
-
-            let querySelectOrigem = `SELECT * FROM ${tabela.nomeOrigem}`;
             let newRows = await queryRunnerOrigem.query(querySelectOrigem);
 
             for (const row of newRows) {
@@ -77,6 +80,10 @@ class ReplicadorService {
                     if (typeof value == 'string') {
                         return `'${value}'`;
                     }
+
+                    if (value instanceof Date){
+                        return `'${value.toISOString().substring(0,10)}'`;
+                    }
     
                     if (value == null) {
                         return 'null';
@@ -89,7 +96,7 @@ class ReplicadorService {
                 queryInsert += `(${colunas.join(',')}) `;
                 queryInsert += `VALUES (${values.join(',')});`;
 
-                //await queryRunnerDestino.query(queryInsert);
+                await queryRunnerDestino.query(queryInsert);
             }
         }
     }        
