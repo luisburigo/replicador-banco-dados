@@ -19,7 +19,7 @@ class TabelaLog extends BaseEntity {
     @Column('varchar', {name: 'descricao'})
     descricao: string;
 
-    @Column('datetime', {name: 'data', default: new Date()})
+    @Column('datetime', {name: 'data', default: new Date().toISOString().substring(0, 10)})
     data: Date;
 
     @Column('simple-enum', {name: 'type'})
