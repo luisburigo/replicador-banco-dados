@@ -14,8 +14,8 @@ async function init() {
 
     console.log(processo)
 
-  /*  const processoService = new ProcessoService();
-    processoService.iniciarProcesso(processo);*/
+    const processoService = new ProcessoService();
+    processoService.iniciarProcesso(processo);
 }
 
 

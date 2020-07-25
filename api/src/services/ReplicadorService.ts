@@ -2,6 +2,7 @@ import {Processo} from "../models/Processo";
 import {Connection} from "typeorm";
 import {ConnectionFactory} from "../models/Direcao";
 import {Tabela, ColunaChaveTipoEnum} from "../models/Tabela";
+import { TabelaLog } from "../models/TabelaLog";
 
 class ReplicadorService {
 
@@ -35,14 +36,15 @@ class ReplicadorService {
         const queryRunnerOrigem = this.connectionOrigem.createQueryRunner();
         const queryRunnerDestino = this.connectionDestino.createQueryRunner();
         
-        console.log('Iniciando replicação...');        
+        console.log('Iniciando replicação...');
 
         for (const tabela of tabelas) {
             let colunaChave = tabela.colunaChave;
             let colunaChaveTipo = tabela.colunaChaveTipo;
             let querySelectOrigem = `SELECT * FROM ${tabela.nomeOrigem}`;
-            
-            console.log(`Inserindo dados na tabela ${tabela.nomeOrigem}`);
+
+            await TabelaLog.createInfo(tabela, "Iniciando replicação...");
+            console.log(`Inserindo dados na tabela ${tabela.nomeOrigem}.`);
 
             switch (colunaChaveTipo) {
                 case ColunaChaveTipoEnum.INT:
@@ -52,20 +54,44 @@ class ReplicadorService {
                     let values = Object.values(rows[0]);
                     
                     if (values[0]) {
-                        console.log("tabela já possuía registros.");                        
+                        await TabelaLog.createInfo(tabela, `Inserindo dados na tabela de destino a partir do id ${values[0]}.` );
+
                         querySelectOrigem += ` WHERE ${tabela.colunaChave} > ${values[0]} `;
+                    } else {
+                        await TabelaLog.createInfo(tabela, "Primeira inserção na tabela." );
                     }
                     break;
                 
                 case ColunaChaveTipoEnum.UNDEFINED:
+                    TabelaLog.createInfo(tabela, "Atualizando todos os registros.");
+
                     let queryDeleteDestino = `DELETE FROM ${tabela.nomeDestino}`;
-                    await queryRunnerDestino.query(queryDeleteDestino);
+                    
+                    try {
+                        await queryRunnerDestino.query(queryDeleteDestino);
+                        await TabelaLog.createSucces(tabela, "Exclusão de registros na tabela de destino realizada com sucesso.")
+                    }catch(e){
+                        await await TabelaLog.createError(tabela, "Erro excluindo registros na tabela de destino.");
+                    }
+
                     break;
                 
                 default:
                     break;
             }
-            let newRows = await queryRunnerOrigem.query(querySelectOrigem);
+            
+            let newRows;
+            
+            try{
+                newRows = await queryRunnerOrigem.query(querySelectOrigem);
+                await TabelaLog.createSucces(tabela, "Busca de dados na tabela de origem realizada com sucesso.");
+            }catch(e){
+                await TabelaLog.createError(tabela, "Erro buscando dados na tabela de origem.");
+            }
+            
+            if (!newRows.length){
+                await TabelaLog.createSucces(tabela, "Não há dados para atualizar.");
+            }
 
             for (const row of newRows) {
                 
@@ -96,7 +122,13 @@ class ReplicadorService {
                 queryInsert += `(${colunas.join(',')}) `;
                 queryInsert += `VALUES (${values.join(',')});`;
 
-                await queryRunnerDestino.query(queryInsert);
+                await TabelaLog.createInfo(tabela, "Inserindo dados na tabela de origem.");
+                try{
+                    await queryRunnerDestino.query(queryInsert);
+                    await TabelaLog.createSucces(tabela, "Sucesso ao inserir dados na tabela de destino.")
+                }catch(e){
+                    await TabelaLog.createError(tabela, "Erro inserindo dados na tabela de destino.");
+                }
             }
         }
     }        
