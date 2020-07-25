@@ -4,10 +4,10 @@ import {SaveOptions} from "typeorm/repository/SaveOptions";
 import SocketService from "../services/SocketService";
 
 export enum LogType {
-    SUCCESS,
-    INFO,
-    ERROR,
-    WARNING
+    SUCCESS = 'SUCCESS',
+    INFO = 'INFO',
+    ERROR = 'ERROR',
+    WARNING = 'WARNING',
 }
 
 @Entity('tabelas_log')

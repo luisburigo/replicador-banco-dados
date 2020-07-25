@@ -32,7 +32,8 @@
 }
 
 .TerminalContent {
-
+    max-height: calc(100% - 40px);
+    overflow-y: auto;
 }
 
 .TerminalMessages {
@@ -40,6 +41,10 @@
     list-style: none;
     font-family: "Lucida Console";
     font-size: 13px;
+}
+
+.TerminalMessages li {
+    margin-bottom: 10px;
 }
 
 .TerminalMessageSuccess {
@@ -61,7 +66,7 @@
 }
 
 .TerminalMessageInfo {
-    color: white;
+    color: #d2d2d2;
 }
 
 .TerminalMessageInfo:before {
