@@ -16,14 +16,23 @@ class SocketService {
             try {
                 const processo = await Processo.findOne({where: {id}});
 
-                console.log(processo)
-
                 if (!processo) {
                     throw new Error("Processo não existe")
                 }
 
-                this.processoService.iniciarProcesso(processo);
+                const logs = await TabelaLog.createQueryBuilder("tabelaLog")
+                    .innerJoinAndSelect("tabelaLog.tabela", "tabela")
+                    .innerJoinAndSelect("tabela.processo", 'processo')
+                    .limit(100)
+                    .where("processo.id = :id", {id: processo.id})
+                    .getMany();
+
+                setTimeout(() => {
+                    socket.emit(`processo/${processo.id}/setup`, logs);
+                    this.processoService.iniciarProcesso(processo);
+                }, 5000);
             } catch (e) {
+                console.log(e)
                 socket.emit('processo:error', e)
             }
         })
@@ -36,6 +45,7 @@ class SocketService {
 
     removeSocket(socket: Socket) {
         console.log(`[SocketService] Disconnected ${socket.id}`);
+        socket.removeAllListeners();
         this.sockets = this.sockets.filter(_socket => _socket.id == socket.id);
     }
 

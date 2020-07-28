@@ -3,6 +3,7 @@ import socketIo from "socket.io-client";
 import {useParams} from "react-router-dom";
 
 import styles from "./Processo.module.css";
+import {Loader} from "./components/loader/Loader";
 
 interface RouteParams {
     id: string;
@@ -57,6 +58,7 @@ const socket = socketIo('localhost:8000');
 function Processo() {
     const params = useParams<RouteParams>();
     const [logs, setLogs] = useState<MessageLog[]>([]);
+    const [loading, setLoading] = useState(false);
     const terminalContentRef = useRef<HTMLDivElement>(null);
     const terminalMessagesRef = useRef<HTMLUListElement>(null);
 
@@ -79,16 +81,28 @@ function Processo() {
     useEffect(() => {
         console.log('inicaindo sockets eventos')
 
-        socket.on(`processo/${params.id}`, (message: ITabelaLog) => {
-            const messageLog: MessageLog = {
+        socket.emit(`processo:run`, params.id);
+
+        setLoading(true);
+
+        socket.on(`processo/${params.id}/setup`, (messages: ITabelaLog[]) => {
+            const messagesLog: MessageLog[] = messages.map(message => ({
                 text: createLogMessage(message),
                 type: getTypeClassCSS(message.type)
-            }
-            setLogs((state) => [...state, messageLog]);
-            scrollToBottom();
-        })
+            }));
 
-        socket.emit(`processo:run`, params.id);
+            setLogs(logs => [...logs, ...messagesLog]);
+            setLoading(false);
+
+            socket.on(`processo/${params.id}`, (message: ITabelaLog) => {
+                const messageLog: MessageLog = {
+                    text: createLogMessage(message),
+                    type: getTypeClassCSS(message.type)
+                }
+                setLogs((state) => [...state, messageLog]);
+                scrollToBottom();
+            })
+        });
 
         return () => {
             socket.emit(`processo:cancel`, params.id);
@@ -111,6 +125,11 @@ function Processo() {
                     ref={terminalMessagesRef}
                     className={styles.TerminalMessages}
                 >
+                    {
+                        loading && (
+                            <Loader message="Carregando logs anteriores"/>
+                        )
+                    }
                     {
                         logs.map((log, index) => (
                             <li key={index}
