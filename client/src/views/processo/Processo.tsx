@@ -58,14 +58,14 @@ const socket = socketIo('localhost:8000');
 function Processo() {
     const params = useParams<RouteParams>();
     const [logs, setLogs] = useState<MessageLog[]>([]);
-    const [loading, setLoading] = useState(false);
     const terminalContentRef = useRef<HTMLDivElement>(null);
     const terminalMessagesRef = useRef<HTMLUListElement>(null);
 
     const createLogMessage = (log: ITabelaLog): string => {
         // [24/07/2020 20:00:00 | Usuarios] Iniciando replicação [asd]..
         // [24/07/2020 20:00:00 | Usuarios] Inserindo na tabela X..
-        return `[${log.data} | ${log.tabela.nomeOrigem}] ${log.descricao}`;
+        const newDate = new Date(log.data);
+        return `[${newDate.toLocaleDateString()} ${newDate.toLocaleTimeString()}| ${log.tabela.nomeOrigem}] ${log.descricao}`;
     };
 
     const scrollToBottom = () => {
@@ -79,7 +79,7 @@ function Processo() {
     }
 
     useEffect(() => {
-        console.log('inicaindo sockets eventos')
+        console.log('iniciando sockets eventos');
 
         socket.emit(`processo:run`, params.id);
 
@@ -102,6 +102,16 @@ function Processo() {
                 setLogs((state) => [...state, messageLog]);
                 scrollToBottom();
             })
+        });
+
+        socket.on(`processo:wait`, (message: string) => {
+            const messageLog: MessageLog = {
+                text: message,
+                type: getTypeClassCSS('INFO')
+            }
+
+            setLogs((state) => [...state, messageLog]);
+            scrollToBottom();
         });
 
         return () => {
