@@ -58,6 +58,7 @@ const socket = socketIo('localhost:8000');
 function Processo() {
     const params = useParams<RouteParams>();
     const [logs, setLogs] = useState<MessageLog[]>([]);
+    const [loading, setLoading] = useState(true);
     const terminalContentRef = useRef<HTMLDivElement>(null);
     const terminalMessagesRef = useRef<HTMLUListElement>(null);
 
