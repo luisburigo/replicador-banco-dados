@@ -1,5 +1,6 @@
 import {Processo} from "../models/Processo";
 import ReplicadorService from "./ReplicadorService";
+import SocketService from "./SocketService";
 
 const resolveTimeout = () => new Promise(resolve => setTimeout(() => {
     resolve();
@@ -37,7 +38,7 @@ class ProcessoScheduler {
                 console.log('[ProcessoScheduler] Processo inicado')
                 const replicadorService = new ReplicadorService(this.processo);
                 await replicadorService.iniciarReplicao();
-                // SocketService.emitAllSockets(`processo/${this.processo.id}`, {descricao: this.processo.descricao + " ihu"});
+                SocketService.emitAllSockets('processo:wait', `Aguardando o tempo de ${this.processo.tempoExecucao / 60 / 1000} minutos para executar novamente...`);         
                 console.log('[ProcessoScheduler] Processo finalizou')
                 resolve();
             } catch (e) {

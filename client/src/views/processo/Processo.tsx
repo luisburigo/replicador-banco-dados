@@ -63,7 +63,8 @@ function Processo() {
     const createLogMessage = (log: ITabelaLog): string => {
         // [24/07/2020 20:00:00 | Usuarios] Iniciando replicação [asd]..
         // [24/07/2020 20:00:00 | Usuarios] Inserindo na tabela X..
-        return `[${log.data} | ${log.tabela.nomeOrigem}] ${log.descricao}`;
+        const newDate = new Date(log.data);
+        return `[${newDate.toLocaleDateString()} ${newDate.toLocaleTimeString()}| ${log.tabela.nomeOrigem}] ${log.descricao}`;
     };
 
     const scrollToBottom = () => {
@@ -77,7 +78,7 @@ function Processo() {
     }
 
     useEffect(() => {
-        console.log('inicaindo sockets eventos')
+        console.log('iniciando sockets eventos');
 
         socket.on(`processo/${params.id}`, (message: ITabelaLog) => {
             const messageLog: MessageLog = {
@@ -87,6 +88,16 @@ function Processo() {
             setLogs((state) => [...state, messageLog]);
             scrollToBottom();
         })
+
+        socket.on(`processo:wait`, (message: string) => {
+            const messageLog: MessageLog = {
+                text: message,
+                type: getTypeClassCSS('INFO')
+            }
+
+            setLogs((state) => [...state, messageLog]);
+            scrollToBottom();
+        });
 
         socket.emit(`processo:run`, params.id);
 
