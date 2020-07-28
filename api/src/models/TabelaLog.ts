@@ -19,7 +19,7 @@ class TabelaLog extends BaseEntity {
     @Column('varchar', {name: 'descricao'})
     descricao: string;
 
-    @Column('datetime', {name: 'data', default: new Date().toISOString()})
+    @Column('datetime', {name: 'data', default: () => "CURRENT_TIMESTAMP"})
     data: Date;
 
     @Column('simple-enum', {name: 'type'})
