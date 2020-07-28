@@ -7,6 +7,6 @@
 
 Para rodar o progama na sua máquina, são necessárias as seguintes configurações/instalações:
 > - **Node** com versão igual a 11.10.1 - [Node Donwload](https://nodejs.org/pt-br/download/)
-> - **NPM** com versão superior ou igual que 6.7.0 - [NPM download] https://www.npmjs.com/package/download
-> - **YARN** com versão superior ou igual que 1.22.0 [Yarn Donwload] (https://classic.yarnpkg.com/en/docs/install/)
+> - **NPM** com versão superior ou igual que 6.7.0 - [NPM Download](https://www.npmjs.com/package/download)
+> - **YARN** com versão superior ou igual que 1.22.0 [YARN Donwload](https://classic.yarnpkg.com/en/docs/install/)
 > - **GULP** com versão CLI superior ou igual que 2.3.0 
