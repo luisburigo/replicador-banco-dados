@@ -77,5 +77,5 @@ Para rodar o progama na sua máquina, são necessárias as seguintes configuraç
 > - **Vinicius Spada Melo** - Software Developer - [Github](https://github.com/ViniciussMelo)
 
 <div align="center" style="width: 100%">
-  <img alt="Logo" title="#logo" width="300px" src=".assets/video_replicador_banco.gif">
+  <img alt="Logo" title="#logo" src=".assets/video_replicador_banco.gif">
 </div>
