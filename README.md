@@ -71,6 +71,10 @@ Para rodar o progama na sua máquina, são necessárias as seguintes configuraç
 > - Replicador de um banco de dados pré definido;
 > - Automatizar as replicações, após o tempo estabelecido do processo;
 
+## Links
+> Planejamento:
+> - [Quadro Trello](https://trello.com/b/Vk3l0K5e/replicador-de-bd)
+
 ## Autores
 
 > - **Luis Gustavo Búrigo Alexandre** - Software Developer - [Github](https://github.com/gugaburigo29)
