@@ -75,3 +75,7 @@ Para rodar o progama na sua máquina, são necessárias as seguintes configuraç
 
 > - **Luis Gustavo Búrigo Alexandre** - Software Developer - [Github](https://github.com/gugaburigo29)
 > - **Vinicius Spada Melo** - Software Developer - [Github](https://github.com/ViniciussMelo)
+
+<div align="center" style="width: 100%">
+  <img alt="Logo" title="#logo" width="300px" src=".assets/video_replicador_banco.gif">
+</div>
