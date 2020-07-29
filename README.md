@@ -34,7 +34,7 @@ Para rodar o progama na sua máquina, são necessárias as seguintes configuraç
 > ```
 > 	yarn install
 > ```
-> Agora basta pegar o banco de dados de origem e de destino na patas "dumps", e criar os databases no MySQL Workbench:
+> Agora basta pegar o banco de dados de origem e de destino na pasta "dumps", e criar os databases no MySQL Workbench:
 > ```
 > 	cd replicador-banco-dados/.assets/dumps
 > ```
@@ -43,7 +43,7 @@ Para rodar o progama na sua máquina, são necessárias as seguintes configuraç
 >
 > Após ter configurado o projeto e ter aguardado a instalação das dependencias de desenvolvimento, é necessário dar um start no back-end e no front-end como segue:
 >
-> Primeiramente deve-se garantir que o servidor do banco de dados, neste caso o servidor do MySQL  esteja ligado.
+> Primeiramente deve-se garantir que o servidor do banco de dados, neste caso o servidor do MySQL esteja ligado.
 > 
 > Após dar um start no servidor do banco de dados, acesse a pasta client do projeto pelo seu terminal:
 > ```
@@ -55,7 +55,7 @@ Para rodar o progama na sua máquina, são necessárias as seguintes configuraç
 > ```
 > Abra outro terminal, e acesse a pasta api do projeto pelo seu terminal:
 > ```
-> 	cd ../api
+> 	cd replicador-banco-dados/api
 > ```
 > Após acessar a pasta, execute os seguintes comandos:
 > ```
