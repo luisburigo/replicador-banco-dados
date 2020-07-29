@@ -36,7 +36,7 @@ Para rodar o progama na sua máquina, são necessárias as seguintes configuraç
 > ```
 > Agora basta pegar o banco de dados de origem e de destino na patas "dumps", e criar os databases no MySQL Workbench:
 > ```
-> 	cd replicador-banco-dados/dumps
+> 	cd replicador-banco-dados/.assets/dumps
 > ```
 
 ## Execução
